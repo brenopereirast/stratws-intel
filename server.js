@@ -45,7 +45,7 @@ SCORE (some apenas sinais dos últimos 90 dias):
 - Vagas de gestão/RH abertas: +15
 - Crescimento acelerado: +15
 - Setor com fit (indústria, saúde, agro, financeiro, varejo): +10
-- Porte ideal 100-5000 funcionários: +10
+- Porte ideal 1000-100000 funcionários: +10
 Sem sinais recentes = score máximo 25. 70+ = QUENTE, 40-69 = MORNO, abaixo = FRIO.
 
 PESSOA CERTA:
