@@ -27,26 +27,47 @@ app.post("/api/analyze", async (req, res) => {
 
   console.log(`Analisando: ${linkedin_url}`);
 
-  const prompt = `Você é um analista de inteligência de vendas B2B da Siteware, empresa que vende o STRATWs One — software de gestão estratégica que centraliza KPIs, metas, planos de ação, avaliação de desempenho, remuneração variável e gestão de reuniões em uma única plataforma.
+  const prompt = `Você é um analista sênior de inteligência de vendas B2B da Siteware, empresa que vende o STRATWs One — software de gestão estratégica que centraliza KPIs, metas, planos de ação, avaliação de desempenho, remuneração variável e gestão de reuniões em uma única plataforma. Clientes de referência: Vale, TV Globo, VLI, Unimed, Samarco, Centauro.
 
 URL LinkedIn da empresa: ${linkedin_url}
 Nome estimado: ${companyGuess}
 
-PASSO 1 — PESQUISE na web:
-1. Contratações recentes de C-Level (CEO novo, CFO, COO, Head de RH, VP Operações, Diretor de Estratégia)
-2. Vagas abertas de gestão, planejamento estratégico, controladoria, RH, operações
-3. Expansão: novas filiais, mercados, produtos, internacionalização
-4. Funding, investimentos, acquisitions, mudança societária
-5. Notícias de crescimento acelerado, reestruturação ou transformação
-6. Posts de liderança sobre desafios de gestão, metas, indicadores, estratégia
-7. Porte e setor da empresa
-
-PASSO 2 — CLASSIFIQUE cada sinal:
-- QUENTE 🔴: empresa claramente precisando organizar gestão, estratégia ou pessoas (crescimento rápido sem processo, novo CEO/gestor querendo implantar cultura de resultados, expansão desordenada, RH sobrecarregado)
-- MORNO 🟡: sinais de que podem ter interesse mas sem urgência clara
-- FRIO 🔵: contexto favorável mas sem trigger específico
-
-PASSO 3 — GERE a mensagem personalizada de prospecção para LinkedIn (máx 280 caracteres), usando o sinal mais forte como gatilho, conectando à dor de gestão e propondo o STRATWs como solução. Tom: direto, executivo, sem parecer spam. NÃO mencione "STRATWs" ou "Siteware" na mensagem — foque na dor.
+Busque informações RECENTES (últimos 90 dias) sobre a empresa. Ignore sinais com mais de 120 dias.
+ 
+Pesquise:
+1. Novo C-Level assumindo cargo (CEO, CFO, COO, VP, Diretor) nos últimos 90 dias
+2. Vagas abertas AGORA de gestão, planejamento estratégico, controladoria, RH, operações
+3. Expansão ATIVA: novas filiais, novos mercados, lançamento de produto nos últimos 90 dias
+4. Funding, investimento, acquisition ou mudança societária recente
+5. Notícias recentes de crescimento acelerado, reestruturação ou transformação
+6. Porte real da empresa e setor
+ 
+PASSO 2 — CALCULE O SCORE (0-100)
+Some os pontos APENAS para sinais dos últimos 90 dias:
+- Novo C-Level assumiu cargo nos últimos 90 dias: +30
+- Expansão ativa (nova filial, mercado ou produto): +20
+- Funding ou acquisition recente: +20
+- Vagas abertas de gestão/estratégia/RH: +15
+- Crescimento acelerado com sinais de desorganização: +15
+- Setor com alto fit STRATWs (indústria, saúde, agro, financeiro, varejo mid-market): +10
+- Porte ideal (100-5000 funcionários): +10
+ 
+Classificação: 70-100 = QUENTE, 40-69 = MORNO, 0-39 = FRIO
+Se não encontrar sinais recentes concretos, score máximo é 25 (FRIO).
+ 
+PASSO 3 — IDENTIFIQUE A PESSOA CERTA
+- Novo CEO/Diretor → abordar ele diretamente
+- Expansão/crescimento → CEO ou COO
+- Vagas de RH → Head de RH ou Diretor de Pessoas
+- Vagas de controladoria → CFO ou Diretor Financeiro
+- Sem sinal específico → CEO ou Diretor Geral
+ 
+PASSO 4 — GERE A MENSAGEM LINKEDIN
+Estrutura obrigatória:
+1. "E aí [Nome], tudo jóia? Vou bem direto ao ponto para respeitar nossos tempos."
+2. Mencione o sinal concreto encontrado como gancho
+3. "Meu objetivo é te mostrar o STRATWs One, focado no acompanhamento e melhoria contínua dos indicadores estratégicos, já consolidado em empresas como [social proof adaptado ao setor]."
+4. "Topa participar de uma demonstração com o nosso comercial? Caso contrário, me avise que finalizo meus pontos de contato."
 
 Responda SOMENTE JSON válido, sem texto fora, sem markdown:
 {
